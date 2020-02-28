@@ -85,7 +85,7 @@ for image in all_images:
     projections.append(sigma)
 
 
-#fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(8, 8))
 columns = 4
 rows = 5
 eigenfaces = []
@@ -94,15 +94,15 @@ for vec in eigenspace:
     face = vec.reshape((150, 130))
     eigenfaces.append(face)
     image = face
-    #fig.add_subplot(rows, columns, i)
-    #plt.imshow(img)
-    #plt.axis('off')
+    fig.add_subplot(rows, columns, i)
+    plt.imshow(image)
+    plt.axis('off')
     i += 1
 
-#plt.show()
+plt.show()
 
 fig = plt.figure(figsize=(22, 5))
-columns = 22
+columns = k + 2
 rows = 5
 for i in range(0,5):
     image = img.imread(all_images[i])
@@ -111,7 +111,7 @@ for i in range(0,5):
     plt.axis('off')
     sigma = projections[i]
     sum_faces = np.zeros((150, 130))
-    for j in range(0, 20):
+    for j in range(0, k):
         face = eigenfaces[j] * sigma[j]
         sum_faces += face
         fig.add_subplot(rows, columns, (i * columns) + 1 + j + 1)
