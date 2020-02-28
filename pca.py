@@ -84,6 +84,45 @@ for image in all_images:
         sigma.append(w)
     projections.append(sigma)
 
+
+#fig = plt.figure(figsize=(8, 8))
+columns = 4
+rows = 5
+eigenfaces = []
+i = 1
+for vec in eigenspace:
+    face = vec.reshape((150, 130))
+    eigenfaces.append(face)
+    image = face
+    #fig.add_subplot(rows, columns, i)
+    #plt.imshow(img)
+    #plt.axis('off')
+    i += 1
+
+#plt.show()
+
+fig = plt.figure(figsize=(22, 5))
+columns = 22
+rows = 5
+for i in range(0,5):
+    image = img.imread(all_images[i])
+    fig.add_subplot(rows, columns, (i * columns) + 1)
+    plt.imshow(image)
+    plt.axis('off')
+    sigma = projections[i]
+    sum_faces = np.zeros((150, 130))
+    for j in range(0, 20):
+        face = eigenfaces[j] * sigma[j]
+        sum_faces += face
+        fig.add_subplot(rows, columns, (i * columns) + 1 + j + 1)
+        plt.imshow(face)
+        plt.axis('off')
+    fig.add_subplot(rows, columns, i * columns + columns)
+    plt.imshow(sum_faces)
+    plt.axis('off')
+plt.show()
+
+
 test_path = r'./Test1'
 test_images = glob.glob(test_path + "/*.jpg")
 A = []
