@@ -6,7 +6,7 @@
 
 import numpy as np, seaborn as sns, pandas as pd
 from matplotlib import pyplot as plt
-import matplotlib.image as img
+import matplotlib.image as img, time
 import glob
 
 
@@ -85,9 +85,10 @@ for image in all_images:
     projections.append(sigma)
 
 test_path = r'./Test1'
-test_images = glob.glob(path + "/*.jpg")
+test_images = glob.glob(test_path + "/*.jpg")
 A = []
 
+imgs = []
 for test_image in test_images:
     arr = img.imread(test_image).flatten()
     phi = arr - mean_vector
@@ -96,17 +97,33 @@ for test_image in test_images:
         w = np.matmul(np.transpose(eigenspace[i]), phi)
         sigma.append(w)
     x = 0
-    minimum = 1000000
+    minimum = float('inf')
     min_index = -1
     for train_image in all_images:
         similarity = np.linalg.norm(np.subtract(sigma, projections[x]))
         if similarity < minimum:
             minimum = similarity
             min_index = x
+        x += 1
 
-    print(minimum)
-    print(min_index)
+    test_image_out = img.imread(test_image)
+    train_image_out = img.imread(all_images[min_index])
+    imgs.append((test_image_out, train_image_out))
 
+fig = plt.figure(figsize=(8, 8))
+columns = 12
+rows = 8
+for i in range(0, len(imgs), 2):
+    img1 = imgs[i][0]
+    img2 = imgs[i][1]
+    fig.add_subplot(rows, columns, i+1)
+    plt.imshow(img1)
+    plt.axis('off')
+    fig.add_subplot(rows, columns, i+2)
+    plt.imshow(img2)
+    plt.axis('off')
+
+plt.show()
 # In[ ]:
 
 
