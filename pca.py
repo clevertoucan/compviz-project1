@@ -149,19 +149,20 @@ for test_image in test_images:
     train_image_out = img.imread(all_images[min_index])
     imgs.append((test_image_out, train_image_out))
 
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(12, 8))
 columns = 12
 rows = 8
-for i in range(0, len(imgs), 2):
+x = 0
+for i in range(0, len(imgs)):
     img1 = imgs[i][0]
     img2 = imgs[i][1]
-    fig.add_subplot(rows, columns, i+1)
+    fig.add_subplot(rows, columns, x + 1)
     plt.imshow(img1)
     plt.axis('off')
-    fig.add_subplot(rows, columns, i+2)
+    fig.add_subplot(rows, columns, x + 2)
     plt.imshow(img2)
     plt.axis('off')
-
+    x += 2
 plt.show()
 # In[ ]:
 
